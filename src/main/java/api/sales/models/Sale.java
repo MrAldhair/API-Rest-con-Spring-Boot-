@@ -30,6 +30,7 @@ public class Sale {
     private String street_branch_office;
     private Integer number_branch_office;
     private Integer zip_code_branch_office;
+    private String folio;
 
     @Override
     public String toString(){
@@ -46,6 +47,7 @@ public class Sale {
                 "\"city_branch_office\": \""+this.city_branch_office+"\", "+
                 "\"street_branch_office\": \""+this.street_branch_office+"\", "+
                 "\"number_branch_office\": "+this.number_branch_office+", "+
-                "\"zip_code_branch_office\": "+this.zip_code_branch_office+"}";
+                "\"zip_code_branch_office\": "+this.zip_code_branch_office+", "+
+                "\"folio\": "+this.folio+"}";
     }
 }
