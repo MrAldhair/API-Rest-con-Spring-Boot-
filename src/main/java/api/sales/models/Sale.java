@@ -48,6 +48,6 @@ public class Sale {
                 "\"street_branch_office\": \""+this.street_branch_office+"\", "+
                 "\"number_branch_office\": "+this.number_branch_office+", "+
                 "\"zip_code_branch_office\": "+this.zip_code_branch_office+", "+
-                "\"folio\": "+this.folio+"}";
+                "\"folio\": \""+this.folio+"\" "+"}";
     }
 }
