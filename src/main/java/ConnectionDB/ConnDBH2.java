@@ -17,7 +17,9 @@ public class ConnDBH2 {
 
     // Metodo de conexion
     public Connection connectionDbH2(){
-            Connection conn = null;
+
+        Connection conn = null;
+
         try {
             
             Class.forName(driver);
@@ -29,20 +31,25 @@ public class ConnDBH2 {
             e.printStackTrace();
             
         }
+
         return conn;
+
     }
     
     public void closeConnection(){
-         Connection conn= null;
+
+        Connection conn = connectionDbH2();
+
         try{
-            
+
             conn.close();
-            
+
         }catch(SQLException e){
-            
+
             e.printStackTrace();
-            
+
         }
+
     }
-    
+
 }

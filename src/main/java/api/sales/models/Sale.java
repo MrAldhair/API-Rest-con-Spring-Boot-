@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="sales")
+@Table(name = "sales")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Sale {
@@ -16,6 +16,7 @@ public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_sale;
+    @Column(nullable = false)
     private Integer id_employee;
     private Integer id_branch_office;
     private Double total_sale;
@@ -50,4 +51,5 @@ public class Sale {
                 "\"zip_code_branch_office\": "+this.zip_code_branch_office+", "+
                 "\"folio\": \""+this.folio+"\" "+"}";
     }
+
 }

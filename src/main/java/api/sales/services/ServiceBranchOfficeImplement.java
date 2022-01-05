@@ -14,7 +14,10 @@ public class ServiceBranchOfficeImplement implements IServiceBranchOffice{
 	
 	@Autowired
 	private RepositoryBranchOffice repoBranchOffice;
-	
+
+	public ServiceBranchOfficeImplement(RepositoryBranchOffice repoBranchOffice) {
+		this.repoBranchOffice = repoBranchOffice;
+	}
 
 	@Override
 	@Transactional

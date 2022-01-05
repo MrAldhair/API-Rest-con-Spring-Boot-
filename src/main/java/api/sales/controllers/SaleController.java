@@ -2,9 +2,8 @@ package api.sales.controllers;
 
 import ConnectionDB.ConnDBH2;
 import api.sales.jms.JmsSender;
-import api.sales.models.BranchOffice;
-import java.util.List;
 
+import api.sales.services.IServiceSale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import api.sales.models.Sale;
-import api.sales.services.ServiceSaleImplement;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +24,9 @@ public class SaleController {
     
     @Autowired
     private JmsSender jmsSender; // componente para enviar json por JMS
+
     @Autowired
-    private ServiceSaleImplement serviceSaleImplement;
+    private IServiceSale serviceSaleImplement;
     
     // Instancias la clase que hemos creado anteriormente
     private static final ConnDBH2 SQL = new ConnDBH2();
@@ -36,8 +36,6 @@ public class SaleController {
     private static String sSQL = "";
     //ResultSet, devuelve el resultado del un query (SELECT)
     private ResultSet rs;
-
-
 
     @PostMapping("/crear")//change name
     @ResponseStatus(HttpStatus.CREATED)
@@ -55,7 +53,7 @@ public class SaleController {
 
         if(rs.next()){
             
-            sale.setCity_branch_office(rs.getString("city")); // todo pendejo yo (Aldhair) XD 
+            sale.setCity_branch_office(rs.getString("city"));
             sale.setName_branch_office(rs.getString("name"));
             sale.setState_branch_office(rs.getString("state"));
             sale.setStreet_branch_office(rs.getString("street"));
@@ -69,8 +67,10 @@ public class SaleController {
     }
 
     @GetMapping("/listar") // change name
-    public List<Sale> mostrar() {
-            return serviceSaleImplement.findAll();
+    public Iterable<Sale> mostrar() { // Iterable. colección de elementos que se puede recorrer
+
+        return serviceSaleImplement.findAll();
+
     }
 
 }
