@@ -5,12 +5,11 @@ import api.sales.jms.JmsSender;
 
 import api.sales.services.IServiceSale;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import api.sales.models.Sale;
 
@@ -18,6 +17,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class SaleController {   
@@ -25,8 +26,9 @@ public class SaleController {
     @Autowired
     private JmsSender jmsSender; // componente para enviar json por JMS
 
+    @Qualifier("IServiceSale")
     @Autowired
-    private IServiceSale serviceSaleImplement;
+    private IServiceSale serviceSale;
     
     // Instancias la clase que hemos creado anteriormente
     private static final ConnDBH2 SQL = new ConnDBH2();
@@ -38,10 +40,14 @@ public class SaleController {
     private ResultSet rs;
 
     @PostMapping("/crear")//change name
-    @ResponseStatus(HttpStatus.CREATED)
-    public Sale create(@RequestBody Sale sale) throws SQLException {
-        
+    @ResponseStatus(HttpStatus.CREATED) //Retorna el estatus de la peticion POST
+    public ResponseEntity<?> create(@RequestBody Sale sale) throws SQLException {
+        Sale saleNew = null;
+        /*
         System.out.println("venta creada"+ sale.toString());
+
+
+        Map<String, Object> response = new HashMap<>();
 
         //consulta a la base de datos para obtener los datos de la sucursal 
         conn = SQL.connectionDbH2();
@@ -63,14 +69,39 @@ public class SaleController {
         }
 
         jmsSender.sendMsg(sale.toString());
-        return serviceSaleImplement.save(sale);	
+        return serviceSale.save(sale);*/
+        return ResponseEntity<Sale>(saleNew, HttpStatus.OK);
     }
 
-    @GetMapping("/listar") // change name
+    @GetMapping("/listar")
     public Iterable<Sale> mostrar() { // Iterable. colección de elementos que se puede recorrer
+        return serviceSale.findAll();
+    }
 
-        return serviceSaleImplement.findAll();
+    @GetMapping("/listar/{id}")
+    //Puede retornar cualquier tipo de objeto (venta, msj, exception, etc)
+    public ResponseEntity<?> mostrarPorId(@PathVariable Long id) { // Iterable. colección de elementos que se puede recorrer
 
+        //Manejo de excepciones
+        Sale sale = null;
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            sale = serviceSale.findById(id);
+        } catch (DataAccessException e){
+            response.put("msg","Error en al consulta de la DB");
+            response.put("error",e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        //Alamacenar los objetos/valores asociados a un nombre
+        //Map(interfaz)/HashMap(implementacion)
+        if (sale == null) {
+            response.put("msg","La venta: ".concat(id.toString().concat(" no existe!!")));
+            return new ResponseEntity<Map<String,Object>>(response,HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Sale>(sale, HttpStatus.OK);
     }
 
 }

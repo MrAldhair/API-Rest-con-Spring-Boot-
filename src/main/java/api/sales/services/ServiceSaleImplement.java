@@ -6,6 +6,8 @@ import api.sales.repository.RepositorySale;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service // Se registra como @Service en el contenedor de Spring
 public class ServiceSaleImplement implements IServiceSale{
 
@@ -18,8 +20,8 @@ public class ServiceSaleImplement implements IServiceSale{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Iterable<Sale> findAll() {
-		return repoSale.findAll();
+	public List<Sale> findAll() {
+		return (List<Sale>) repoSale.findAll();
 	}
 
 	@Override

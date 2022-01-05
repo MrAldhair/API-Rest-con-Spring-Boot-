@@ -4,10 +4,12 @@ import api.sales.models.Sale;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface IServiceSale {
 	
-	public Iterable<Sale> findAll();
+	public List<Sale> findAll();
 
 	public Sale findById(Long id);
 

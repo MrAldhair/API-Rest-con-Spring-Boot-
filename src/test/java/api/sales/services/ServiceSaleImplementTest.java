@@ -4,25 +4,14 @@ import api.sales.DataTest.DataSales;
 import api.sales.models.Sale;
 import api.sales.repository.RepositorySale;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 
 @DataJpaTest
@@ -48,10 +37,8 @@ class ServiceSaleImplementTest {
         repositorySale.save(sale);
         assertNotNull(sale);
         //assertEquals(1L, serviceSale.findById(1L));
-
         //verify(repositorySale).findById(1L);
         //
-
     }
 
     @Test
@@ -63,13 +50,16 @@ class ServiceSaleImplementTest {
 
     @Test
     void findAll() {
-
         assertThat(repositorySale.findAll()).hasSize(2);
-
     }
-/*
+
     @Test
-    void findById() {
+    void findAll_failed() {
+        assertThat(repositorySale.findAll()).hasSize(3);
+    }
+
+    @Test
+    void findById() {/*
         when(repositorySale.findById(1L)).thenReturn(java.util.Optional.of(DataSales.sale_1));
         when(repositorySale.findById(2L)).thenReturn(java.util.Optional.of(DataSales.sale_2));
         when(repositorySale.findById(3L)).thenReturn(java.util.Optional.of(DataSales.sale_3));
@@ -78,9 +68,11 @@ class ServiceSaleImplementTest {
         Sale get_name_employee = repositorySale.findById(DataSales.sale_2.getId_sale());
 
         assertEquals(1L, get_id.getId_sale());
-        assertEquals("fulano", get_name_employee.getName_employee());
+        assertEquals("fulano", get_name_employee.getName_employee());*/
 
-    }*/
+        assertThat(repositorySale.findById(5L));
+
+    }
 
 
 
