@@ -2,10 +2,8 @@ package api.sales;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-//@EnableEurekaClient
 public class SpringServiceApiSalesApplication {
 
 	public static void main(String[] args) {

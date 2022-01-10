@@ -1,12 +1,14 @@
 package api.sales.services;
 
-import java.util.List;
 import api.sales.models.Sale;
+import java.util.List;
 
 public interface IServiceSale {
 	
-	public List<Sale> findAll();
-	
-	public Sale save(Sale sale);
+	List<Sale> findAll();
+
+	Sale findById(Long id);
+
+	Sale save(Sale sale);
 
 }

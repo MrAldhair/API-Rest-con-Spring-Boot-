@@ -6,8 +6,8 @@ import api.sales.models.BranchOffice;
 
 public interface IServiceBranchOffice {
 	
-	public List<BranchOffice> findAll();
+	List<BranchOffice> findAll();
 	
-	public BranchOffice findById(Long id);
+	BranchOffice findById(Long id);
 
 }

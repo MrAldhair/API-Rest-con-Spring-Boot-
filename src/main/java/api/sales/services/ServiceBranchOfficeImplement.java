@@ -14,12 +14,14 @@ public class ServiceBranchOfficeImplement implements IServiceBranchOffice{
 	
 	@Autowired
 	private RepositoryBranchOffice repoBranchOffice;
-	
+
+	public ServiceBranchOfficeImplement(RepositoryBranchOffice repoBranchOffice) {
+		this.repoBranchOffice = repoBranchOffice;
+	}
 
 	@Override
 	@Transactional
 	public List<BranchOffice> findAll() {
-		
 		return (List<BranchOffice>) repoBranchOffice.findAll();
 		
 	}
@@ -27,7 +29,6 @@ public class ServiceBranchOfficeImplement implements IServiceBranchOffice{
 	@Override
 	@Transactional
 	public BranchOffice findById(Long id) {
-		
 		return repoBranchOffice.findById(id).orElse(null);
 		
 	}
