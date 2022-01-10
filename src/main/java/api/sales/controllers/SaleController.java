@@ -39,7 +39,7 @@ public class SaleController {
     //ResultSet, devuelve el resultado del un query (SELECT)
     private ResultSet rs;
 
-    @PostMapping("/crear")//change name
+    /*@PostMapping("/crear")//change name
     @ResponseStatus(HttpStatus.CREATED) //Retorna el estatus de la peticion POST
     public ResponseEntity<?> create(@RequestBody Sale sale) throws SQLException {
         Sale saleNew = null;
@@ -70,8 +70,8 @@ public class SaleController {
 
         jmsSender.sendMsg(sale.toString());
         return serviceSale.save(sale);*/
-        return ResponseEntity<Sale>(saleNew, HttpStatus.OK);
-    }
+        //return ResponseEntity<Sale>(saleNew, HttpStatus.OK);
+    //}
 
     @GetMapping("/listar")
     public Iterable<Sale> mostrar() { // Iterable. colección de elementos que se puede recorrer
