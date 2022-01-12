@@ -48,6 +48,7 @@ class SaleControllerTest {
     private MockMvc mockMvc; //contexto simulador de toda la parte web
     @MockBean
     private IServiceSale serviceSale;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test

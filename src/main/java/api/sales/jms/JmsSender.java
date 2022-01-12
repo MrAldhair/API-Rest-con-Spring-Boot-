@@ -19,8 +19,8 @@ import com.github.underscore.lodash.U;
 
 @Component
 public class JmsSender {
-@Autowired
-private JmsTemplate jmsTemplate;
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     public void sendMsg(String msg){
         this.jmsTemplate.send("sales-out",new MessageCreator(){

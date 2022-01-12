@@ -14,9 +14,7 @@ public class ServiceSaleImplement implements IServiceSale{
 	@Autowired // inyección de dependencias (inyectar un bean en el componente actual)
 	private RepositorySale repoSale;
 
-	public ServiceSaleImplement(RepositorySale repoSale) {
-		this.repoSale = repoSale;
-	}
+	public ServiceSaleImplement(RepositorySale repoSale) { this.repoSale = repoSale; }
 
 	@Override
 	@Transactional(readOnly = true)

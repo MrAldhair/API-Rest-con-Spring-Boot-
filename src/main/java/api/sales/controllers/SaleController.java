@@ -36,18 +36,39 @@ public class SaleController {
     //ResultSet, devuelve el resultado del un query (SELECT)
     private ResultSet rs;
 
-    @PostMapping("/crear")
-    @ResponseStatus(HttpStatus.CREATED) //Retorna el estatus de la peticion POST
+     //Retorna el estatus de la peticion POST
     //Nos permite retornar cualquier tipo de objeto (venta, msj, exception, etc)
     //DTO Data Transfer Object
+     @PostMapping("/crear")
+     @ResponseStatus(HttpStatus.CREATED)
     private ResponseEntity<?> create(@RequestBody Sale sale) throws SQLException {
 
-        // System.out.println("venta creada"+ sale.toString());
+
         Sale saleNew = null;
         Map<String, Object> response = new HashMap<>();
 
         try {
+            //consulta a la base de datos para obtener los datos de la sucursal
+            conn = SQL.connectionDbH2();
+            sSQL = "SELECT city,name,number,state,street,zip_code FROM BRANCH_OFFICE where id_branch_office = ?";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
+            preparedStatement.setLong(1, sale.getId_branch_office());
+            rs = preparedStatement.executeQuery();
+
+            if(rs.next()){
+
+                sale.setCity_branch_office(rs.getString("city"));
+                sale.setName_branch_office(rs.getString("name"));
+                sale.setState_branch_office(rs.getString("state"));
+                sale.setStreet_branch_office(rs.getString("street"));
+                sale.setNumber_branch_office(rs.getInt("number"));
+                sale.setZip_code_branch_office(rs.getInt("zip_code"));
+
+            }
+            System.out.println("venta creada"+ sale.toString());
             saleNew = serviceSale.save(sale);
+
         } catch (DataAccessException e) {
             response.put("msg","Error al insertar en la DB");
             response.put("error",e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -55,30 +76,11 @@ public class SaleController {
 
         }
 
-        //consulta a la base de datos para obtener los datos de la sucursal
-        conn = SQL.connectionDbH2();
-        sSQL = "SELECT city,name,number,state,street,zip_code FROM BRANCH_OFFICE where id_branch_office = ?";
-
-        PreparedStatement preparedStatement = conn.prepareStatement(sSQL);
-        preparedStatement.setLong(1, sale.getId_branch_office());
-        rs = preparedStatement.executeQuery();
-
-        if(rs.next()){
-
-            sale.setCity_branch_office(rs.getString("city"));
-            sale.setName_branch_office(rs.getString("name"));
-            sale.setState_branch_office(rs.getString("state"));
-            sale.setStreet_branch_office(rs.getString("street"));
-            sale.setNumber_branch_office(rs.getInt("number"));
-            sale.setZip_code_branch_office(rs.getInt("zip_code"));
-
-        }
-
         response.put("msg","La venta se a creado con exito");
         response.put("sale",saleNew);
-        return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
-
         //jmsSender.sendMsg(sale.toString());
+        return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);//201
+
         //return serviceSale.save(sale);
 
     }
