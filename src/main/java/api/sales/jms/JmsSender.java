@@ -34,7 +34,7 @@ public class JmsSender {
             
         });
         
-        System.out.println("venta enviada a spring camel" + msg);
+        System.out.println("venta enviada por medio de la cola..." + msg);
         
     }
   

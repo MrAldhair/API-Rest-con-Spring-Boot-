@@ -69,6 +69,7 @@ public class SaleController {
             System.out.println("venta creada"+ sale.toString());
             saleNew = serviceSale.save(sale);
 
+
         } catch (DataAccessException e) {
             response.put("msg","Error al insertar en la DB");
             response.put("error",e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -76,9 +77,9 @@ public class SaleController {
 
         }
 
+        jmsSender.sendMsg(saleNew.toString());
         response.put("msg","La venta se a creado con exito");
         response.put("sale",saleNew);
-        //jmsSender.sendMsg(sale.toString());
         return new ResponseEntity<Map<String,Object>>(response, HttpStatus.CREATED);//201
 
         //return serviceSale.save(sale);
